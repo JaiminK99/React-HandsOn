@@ -143,7 +143,7 @@ function getBook(id) {
   return data.find((d) => d.id === id);
 }
 
-const book = getBook(2);
+const book = getBook(1);
 book;
 
 //Destructuring
@@ -155,10 +155,34 @@ const { title, author, pages, publicationDate, genres, hasMovieAdaptation } =
   book;
 console.log(title, author, genres);
 
-//Destructuring with array
+//Destructuring with array and Rest/Spread operator
 // const primaryGenre = genres[0];
 // const secondaryGenre = genres[1];
 
-const [primaryGenre, secondaryGenre] = genres;
+const [primaryGenre, secondaryGenre, ...otherGenres] = genres;
+console.log(primaryGenre, secondaryGenre, otherGenres);
 
-console.log(primaryGenre, secondaryGenre);
+primaryGenre;
+secondaryGenre;
+otherGenres;
+
+// const newGenre = [genres, "Epic fantacy"];
+// newGenre;
+
+const newGenre = [...genres, "Epic fantacy"];
+newGenre;
+
+const updateBook = {
+  ...book,
+  // Adding a new property
+  moviePublicationDate: "2001-12-19",
+
+  // overriding existing one
+  pages: 1210,
+};
+
+updateBook;
+
+// Template literals
+const summary = `${title}, a ${pages}-page long book, was written by ${author} and published in ${publicationDate.split("-")[0]}.`;
+summary;
