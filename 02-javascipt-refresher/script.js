@@ -183,9 +183,20 @@ const updateBook = {
 
 updateBook;
 
+
+// Arrow functions
+
+// function getYear(str) {
+//   return str.split("-")[0];
+// }
+
+const getYear = (str) => str.split("-")[0];
+console.log(getYear(publicationDate));
+
+
 // Template literals
 const summary = `${title}, a ${pages}-page long book, was written by ${author} and published in ${
-  publicationDate.split("-")[0]
+  getYear(publicationDate)
 }. The book has ${hasMovieAdaptation ? "" : "not"} been adapted as a movie`;
 summary;
 
@@ -194,6 +205,7 @@ summary;
 const pagesRange =
   pages > 1000 ? "More than thousand pages" : "Less than thousand pages";
 
-pagesRange
+pagesRange;
 
-console.log(`The book has ${pagesRange} pages.`)
+console.log(`The book has ${pagesRange} pages.`);
+
