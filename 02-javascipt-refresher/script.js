@@ -177,12 +177,23 @@ const updateBook = {
   // Adding a new property
   moviePublicationDate: "2001-12-19",
 
-  // overriding existing one
+  // overwriting existing property
   pages: 1210,
 };
 
 updateBook;
 
 // Template literals
-const summary = `${title}, a ${pages}-page long book, was written by ${author} and published in ${publicationDate.split("-")[0]}.`;
+const summary = `${title}, a ${pages}-page long book, was written by ${author} and published in ${
+  publicationDate.split("-")[0]
+}. The book has ${hasMovieAdaptation ? "" : "not"} been adapted as a movie`;
 summary;
+
+//ternary operator
+
+const pagesRange =
+  pages > 1000 ? "More than thousand pages" : "Less than thousand pages";
+
+pagesRange
+
+console.log(`The book has ${pagesRange} pages.`)
