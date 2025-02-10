@@ -183,7 +183,6 @@ const updateBook = {
 
 updateBook;
 
-
 // Arrow functions
 
 // function getYear(str) {
@@ -193,11 +192,10 @@ updateBook;
 const getYear = (str) => str.split("-")[0];
 console.log(getYear(publicationDate));
 
-
 // Template literals
-const summary = `${title}, a ${pages}-page long book, was written by ${author} and published in ${
-  getYear(publicationDate)
-}. The book has ${hasMovieAdaptation ? "" : "not"} been adapted as a movie`;
+const summary = `${title}, a ${pages}-page long book, was written by ${author} and published in ${getYear(
+  publicationDate
+)}. The book has ${hasMovieAdaptation ? "" : "not"} been adapted as a movie`;
 summary;
 
 //ternary operator
@@ -209,3 +207,31 @@ pagesRange;
 
 console.log(`The book has ${pagesRange} pages.`);
 
+// Short circuiting
+
+// for && it gives second value if true
+console.log(true && "some value");
+console.log(false && "some value");
+console.log(hasMovieAdaptation && "This book has movie.");
+
+// truthy value : any value which is not a falsy value
+// falsy value : 0, "", null, undefined
+console.log("Jones" && "Some string");
+console.log(0 && "Some string");
+
+// for || it gives first value if true
+console.log(true || "some value");
+console.log(false || "some value");
+
+console.log(book.translations.spanish);
+
+const spanishTranslation = book.translations.spanish || "NOT TRANSLATED";
+spanishTranslation;
+
+//nullish coalescing operator --> only returns second value if first value is null or undefined
+console.log(book.reviews.librarything.reviewsCount);
+const countWrong = book.reviews.librarything.reviewsCount || "no data";
+countWrong;
+
+const count = book.reviews.librarything.reviewsCount ?? "no data";
+count;
