@@ -143,7 +143,7 @@ function getBook(id) {
   return data.find((d) => d.id === id);
 }
 
-const book = getBook(1);
+const book = getBook(3);
 book;
 
 //Destructuring
@@ -229,9 +229,19 @@ const spanishTranslation = book.translations.spanish || "NOT TRANSLATED";
 spanishTranslation;
 
 //nullish coalescing operator --> only returns second value if first value is null or undefined
-console.log(book.reviews.librarything.reviewsCount);
-const countWrong = book.reviews.librarything.reviewsCount || "no data";
-countWrong;
+// console.log(book.reviews.librarything.reviewsCount);
+// const countWrong = book.reviews.librarything.reviewsCount || "no data";
+// countWrong;
 
-const count = book.reviews.librarything.reviewsCount ?? "no data";
-count;
+// const count = book.reviews.librarything.reviewsCount ?? "no data";
+// count;
+
+// Optional chaining (?.)
+
+function getTotalReviewCount(book) {
+  const goodreads = book.reviews?.goodreads?.reviewsCount;
+  const librarything = book.reviews?.librarything?.reviewsCount ?? 0;
+  return goodreads + librarything;
+}
+
+console.log(getTotalReviewCount(book));
