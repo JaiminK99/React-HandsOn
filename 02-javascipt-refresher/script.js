@@ -143,6 +143,7 @@ function getBook(id) {
   return data.find((d) => d.id === id);
 }
 
+/*
 const book = getBook(3);
 book;
 
@@ -228,7 +229,7 @@ console.log(book.translations.spanish);
 const spanishTranslation = book.translations.spanish || "NOT TRANSLATED";
 spanishTranslation;
 
-//nullish coalescing operator --> only returns second value if first value is null or undefined
+// nullish coalescing operator --> only returns second value if first value is null or undefined
 // console.log(book.reviews.librarything.reviewsCount);
 // const countWrong = book.reviews.librarything.reviewsCount || "no data";
 // countWrong;
@@ -245,3 +246,28 @@ function getTotalReviewCount(book) {
 }
 
 console.log(getTotalReviewCount(book));
+*/
+function getTotalReviewCount(book) {
+  const goodreads = book.reviews?.goodreads?.reviewsCount;
+  const librarything = book.reviews?.librarything?.reviewsCount ?? 0;
+  librarything;
+  return goodreads + librarything;
+}
+
+// Functional array methods --> Does not mutate original array. Instead returns an array based on original array
+// 1. map   2. filter   3. reduce
+
+// 1. map
+
+const books = getBooks();
+
+const titles = books.map((book) => book.title);
+
+titles;
+
+const essentialData = books.map((book) => ({
+  title: book.title,
+  author: book.author,
+  reviewsCount: getTotalReviewCount(book),
+}));
+essentialData;
