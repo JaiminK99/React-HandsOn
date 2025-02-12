@@ -322,7 +322,23 @@ bookAfterUpdate;
 */
 
 // Asynchronus Javascript : Use of promise
-fetch("https://jsonplaceholder.typicode.com/todos")
-  .then((res) => res.json())
-  .then((data) => console.log(data));
-console.log("jaimin");
+// fetch("https://jsonplaceholder.typicode.com/todos")
+//   .then((res) => res.json())
+//   .then((data) => console.log(data));
+// console.log("jaimin");
+
+// Asynchronus Javascript : Use of Async/Await
+
+async function getTodos() {
+  const res = await fetch("https://jsonplaceholder.typicode.com/todos");
+  const data = await res.json();
+  console.log(data);
+
+  // return data
+}
+
+// const todos = getTodos()
+
+getTodos();
+// console.log(getTodos());
+console.log("Jaimin");
