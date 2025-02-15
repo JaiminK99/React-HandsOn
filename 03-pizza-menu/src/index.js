@@ -90,6 +90,8 @@ function Menu() {
 }
 
 function Pizza(props) {
+  if (props.pizzaObj.soldOut) return null;
+
   return (
     <li className="pizza">
       <img src={props.pizzaObj.photoName} alt={props.pizzaObj.name} />
@@ -110,6 +112,15 @@ function Footer() {
 
   // if (hour >= openHour && hour <= closehour) alert("We're currently open!");
   // else alert("Sorry , We're closed!");
+
+  // Not idle becouse footer(sementig tag) is not rendering
+  // More useful when want to render entre component
+  if (!isOpen)
+    return (
+      <p>
+        We're happy to welcome you between {openHour}:00 and {closehour}:00.
+      </p>
+    );
 
   return (
     <footer className="footer">
