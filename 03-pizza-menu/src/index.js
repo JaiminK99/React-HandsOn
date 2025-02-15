@@ -71,8 +71,25 @@ function Menu() {
   return (
     <main className="menu">
       <h2>Our menu</h2>
-      <Pizza />
+      <ul className="pizzas">
+        {pizzaData.map((p) => (
+          <Pizza pizzaObj={p} key={p.name} />
+        ))}
+      </ul>
     </main>
+  );
+}
+
+function Pizza(props) {
+  return (
+    <li className="pizza">
+      <img src={props.pizzaObj.photoName} alt={props.pizzaObj.name} />
+      <div>
+        <h3>{props.pizzaObj.name}</h3>
+        <p>{props.pizzaObj.ingredients}</p>
+        <span>{props.pizzaObj.price}</span>
+      </div>
+    </li>
   );
 }
 
@@ -93,15 +110,6 @@ function Footer() {
   // React.createElement("footer", null, "We're currently open!");
 }
 
-function Pizza() {
-  return (
-    <div>
-      <img src="pizzas/spinaci.jpg" alt="Pizza spinaci" />
-      <h3>Pizza Spinaci</h3>
-      <p>Tomato, mozarella, spinach, and ricotta cheese</p>
-    </div>
-  );
-}
 // React v18
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
