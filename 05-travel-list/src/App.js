@@ -20,7 +20,24 @@ function Logo() {
 }
 
 function Form() {
-  return <div className="add-form">What do you need for your 😍 trip?</div>;
+  const handleSubmit = (e) => {
+    e.preventDefault();
+  };
+
+  return (
+    <form className="add-form" onSubmit={handleSubmit}>
+      What do you need for your 😍 trip?
+      <select>
+        {Array.from({ length: 20 }, (_, i) => i + 1).map((num) => (
+          <option value={num} key={num}>
+            {num}
+          </option>
+        ))}
+      </select>
+      <input type="text" placeholder="Item ..."></input>
+      <button>Add</button>
+    </form>
+  );
 }
 
 function PackingList() {
@@ -28,7 +45,7 @@ function PackingList() {
     <div className="list">
       <ul className="list">
         {initialItems.map((item) => (
-          <Item item={item} />
+          <Item item={item} key={item.id} />
         ))}
       </ul>
     </div>
