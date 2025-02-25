@@ -7,11 +7,18 @@ const initialItems = [
 ];
 
 export default function App() {
+  // Lifting up the state
+  const [items, setItems] = useState([]);
+
+  const handleAddItems = (item) => {
+    setItems((items) => [...items, item]);
+  };
+
   return (
     <div className="app">
       <Logo />
-      <Form />
-      <PackingList />
+      <Form onAddItems={handleAddItems} />
+      <PackingList items={items} />
       <Stats />
     </div>
   );
@@ -21,7 +28,7 @@ function Logo() {
   return <h1>🏝️ far Away 🧳</h1>;
 }
 
-function Form() {
+function Form({ onAddItems }) {
   // use of controlled elements : To keep all the state of input fields in React appliaction and not in DOM
   // Due to this react controls and owns the state of input fields
   // 3 steps
@@ -30,9 +37,20 @@ function Form() {
   const [description, setDescription] = useState("");
   const [quantity, setQuantity] = useState(1);
 
+  // Items are rendered by packing list, item state need to be in packing list component
+  // How to get state from packing list
+  // We cannot pass it as prop in packing list,because form is sibling component of packing list. But data can only flow down the tree, It can't flow up or sideways
+
+  //Need to use technique called lift up the state -> taking declared state line to closest common parent component which is App componenet
+  // const [item, setItem] = useState([]);
+
   // 2. Use that state on element we want to control as the value of input field
 
   // 3. Update state variable using onChange event and set state variale to current value of the element
+
+  // const handleAddItems = (item) => {
+  //   setItems((items) => [...items, item]);
+  // };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -43,8 +61,10 @@ function Form() {
       description,
       quantity,
       packed: false,
-      id: new Date.now(),
+      id: Date.now(),
     };
+
+    onAddItems(newItem);
 
     setDescription("");
     setQuantity(1);
@@ -74,11 +94,11 @@ function Form() {
   );
 }
 
-function PackingList() {
+function PackingList({ items }) {
   return (
     <div className="list">
       <ul className="list">
-        {initialItems.map((item) => (
+        {items.map((item) => (
           <Item item={item} key={item.id} />
         ))}
       </ul>
