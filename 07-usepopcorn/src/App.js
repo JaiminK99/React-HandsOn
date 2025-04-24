@@ -55,6 +55,7 @@ const KEY = "8f08cdb4";
 export default function App() {
   const [movies, setMovies] = useState([]);
   const [watched, setWatched] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const query = "interstellar";
 
@@ -63,13 +64,14 @@ export default function App() {
   //   .then((data) => setMovies(data.Search)); // introduced side effects by setting satte in render logic, it changes state and re-renders component which inturn rerenders componenet and cycle repeats
 
   useEffect(function () {
+    setIsLoading(true);
     async function fetchMovies() {
       const res = await fetch(
         `http://www.omdbapi.com/?apikey=${KEY}&s=${query}`
       );
       const data = await res.json();
       setMovies(data.Search);
-      console.log(data.Search);
+      setIsLoading(false);
     }
     fetchMovies();
   }, []);
@@ -81,9 +83,7 @@ export default function App() {
         <NumResults movies={movies} />
       </NavBar>
       <Main>
-        <Box>
-          <MovieList movies={movies} />
-        </Box>
+        <Box>{isLoading ? <Loader /> : <MovieList movies={movies} />}</Box>
         <Box>
           <WatchedSummery watched={watched} />
           <WatchedMoviesList watched={watched} />
@@ -91,6 +91,10 @@ export default function App() {
       </Main>
     </>
   );
+}
+
+function Loader() {
+  return <p className="loader">Loading...</p>;
 }
 
 function NavBar({ children }) {
