@@ -50,19 +50,9 @@ const tempWatchedData = [
 const average = (arr) =>
   arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
 
-const KEY = "8f08cdb4";
-
 export default function App() {
-  const [movies, setMovies] = useState([]);
-  const [watched, setWatched] = useState([]);
-
-  // fetch(`http://www.omdbapi.com/?apikey=8f08cdb4&s=interstellar`)
-  //   .then((res) => res.json())
-  //   .then((data) => setMovies(data.Search)); // introduced side effects by setting satte in render logic, it changes state and re-renders component which inturn rerenders componenet and cycle repeats
-
-  fetch(`http://www.omdbapi.com/?apikey=${KEY}&s=interstellar`)
-    .then((res) => res.json())
-    .then((data) => console.log(data.Search));
+  const [movies, setMovies] = useState(tempMovieData);
+  const [watched, setWatched] = useState(tempWatchedData);
 
   return (
     <>
