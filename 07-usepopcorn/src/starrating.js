@@ -12,7 +12,7 @@ const starContainerStyle = {
   //   gap: "4px",
 };
 
-StarRating.prototype = {
+StarRating.propTypes = {
   maxRating: PropTypes.number,
   color: PropTypes.string,
   size: PropTypes.number,
