@@ -54,7 +54,7 @@ const average = (arr) =>
 const KEY = "8f08cdb4";
 
 export default function App() {
-  const [query, setQuery] = useState("inception");
+  const [query, setQuery] = useState("");
   const [movies, setMovies] = useState([]);
   const [watched, setWatched] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -123,8 +123,8 @@ export default function App() {
 
           setMovies(data.Search);
         } catch (err) {
-          console.error(err.message);
           if (err.name !== "AbortError") {
+            // console.log(err.message);
             setError(err.message);
           }
         } finally {
@@ -132,12 +132,13 @@ export default function App() {
         }
       }
 
-      if (query < 3) {
+      if (query.length < 3) {
         setMovies([]);
         setError("");
         return;
       }
 
+      handleCloseMovie();
       fetchMovies();
 
       return function () {
@@ -344,6 +345,23 @@ function MovieDetails({ selectedId, onCloseMovie, onAddWatched, watched }) {
 
   useEffect(
     function () {
+      function callback(e) {
+        if (e.code === "Escape") {
+          onCloseMovie();
+        }
+      }
+
+      document.addEventListener("keydown", callback);
+
+      return function (e) {
+        document.removeEventListener("keydown", callback);
+      };
+    },
+    [onCloseMovie]
+  );
+
+  useEffect(
+    function () {
       async function fetchMovieDetails() {
         setIsLoading(true);
         const res = await fetch(
@@ -366,6 +384,9 @@ function MovieDetails({ selectedId, onCloseMovie, onAddWatched, watched }) {
 
       return function () {
         document.title = "usePopcorn";
+
+        // Closure in JS: it means that a function will always remember all the variables that were present at the time and the place that the function was created.
+        console.log(`Clean up effect for movie ${title}`);
       };
     },
     [title]
