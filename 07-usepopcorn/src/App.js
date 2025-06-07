@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import StarRating from "./starrating";
 import { useMovies } from "./useMovies";
+import { useLocalStorageState } from "./useLocalStorageState";
 
 const average = (arr) =>
   arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
@@ -15,10 +16,7 @@ export default function App() {
 
   // const [watched, setWatched] = useState([]);
   // in use State hook we can use callback function to initialise it's value
-  const [watched, setWatched] = useState(function () {
-    const storedValue = JSON.parse(localStorage.getItem("watched"));
-    return storedValue;
-  });
+  const [watched, setWatched] = useLocalStorageState([]);
 
   // fetch(`http://www.omdbapi.com/?apikey=8f08cdb4&s=interstellar`)
   //   .then((res) => res.json())
@@ -42,14 +40,6 @@ export default function App() {
   function handleDeleteWatched(id) {
     setWatched((watched) => watched.filter((movie) => movie.imdbID !== id));
   }
-
-  //Storing watched list into local storage using effect hook
-  useEffect(
-    function () {
-      localStorage.setItem("watched", JSON.stringify(watched));
-    },
-    [watched]
-  );
 
   return (
     <>
