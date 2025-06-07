@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { use, useEffect, useRef, useState } from "react";
 import StarRating from "./starrating";
 
 const average = (arr) =>
@@ -285,7 +285,18 @@ function Movie({ movie, onSelectMovie }) {
 function MovieDetails({ selectedId, onCloseMovie, onAddWatched, watched }) {
   const [movie, setMovie] = useState({});
   const [isLoading, setIsLoading] = useState(false);
-  const [userRating, setUserRating] = useState("");
+  const [userRating, setUserRating] = useState(""); //  Is persistant across renders, triggers re-render upon change
+
+  const countRef = useRef(0); //Does not reset after re render(is persistant) , Does not trigger re-render upon change
+  let count = 0; //Resets after every rerender( not persistant), Does not trigger re-render
+
+  useEffect(
+    function () {
+      if (userRating) countRef.current = countRef.current + 1;
+      if (userRating) count = count + 1;
+    },
+    [userRating, count]
+  );
 
   const isWatched = watched.map((movie) => movie.imdbID).includes(selectedId);
 
@@ -337,6 +348,8 @@ function MovieDetails({ selectedId, onCloseMovie, onAddWatched, watched }) {
       imdbRating: Number(imdbRating),
       runtime: Number(runtime.split(" ").at(0)),
       userRating,
+      countRatingDecisions: countRef.current,
+      count,
     };
 
     onAddWatched(newWatchedMovie);
