@@ -119,6 +119,13 @@ function Search({ query, setQuery }) {
     setQuery("");
   });
 
+  //-->Wrong way too select DOM elements in React
+  // useEffect(function () {
+  //   const el = document.querySelector(".search");
+  //   console.log(el);
+  //   el.focus();
+  // }, []);
+
   return (
     <input
       className="search"
