@@ -33,19 +33,28 @@ function formatDay(dateStr) {
 }
 
 class App extends React.Component {
-  constructor(props) {
-    super(props);
+  //Class fields feature:->
+  //In JS with Class fields we can declare properties directly upon a component instance,
+  //right in the class definition (Outside of any method)
 
-    this.state = {
-      location: "lisbon",
-      isLoading: false,
-      displayLocation: "",
-      weather: {},
-    };
-    this.fetchWeather = this.fetchWeather.bind(this);
-  }
+  //Class fields
+  state = {
+    location: "lisbon",
+    isLoading: false,
+    displayLocation: "",
+    weather: {},
+  };
 
-  async fetchWeather() {
+  // constructor(props) {
+  //   super(props);
+  //   // this.fetchWeather = this.fetchWeather.bind(this); // This is not needed after using arrow function
+  // }
+
+  //We can also define methods as classfields
+  // async fetchWeather() {
+
+  // For definfing class fields we can use arrow functions
+  fetchWeather = async () => {
     try {
       this.setState({ isLoading: true });
 
@@ -75,20 +84,18 @@ class App extends React.Component {
     } finally {
       this.setState({ isLoading: false });
     }
-  }
+  };
+
+  setLocation = (e) => this.setState({ location: e.target.value });
 
   render() {
     return (
       <div className="app">
         <h1>Classy Weather</h1>
-        <div>
-          <input
-            type="text"
-            placeholder="Search from location..."
-            value={this.state.location}
-            onChange={(e) => this.setState({ location: e.target.value })}
-          />
-        </div>
+        <Input
+          location={this.state.location}
+          onChangeLocation={this.setLocation}
+        />
         <button onClick={this.fetchWeather}>Get Weather</button>
         {this.state.isLoading && <p className="loader">Loading...</p>}
         {this.state.weather.weathercode && (
@@ -101,8 +108,23 @@ class App extends React.Component {
     );
   }
 }
-
 export default App;
+
+class Input extends React.Component {
+  render() {
+    const { location, onChangeLocation } = this.props;
+    return (
+      <div>
+        <input
+          type="text"
+          placeholder="Search from location..."
+          value={location}
+          onChange={onChangeLocation}
+        />
+      </div>
+    );
+  }
+}
 
 class Weather extends React.Component {
   render() {
