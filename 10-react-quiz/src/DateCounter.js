@@ -1,7 +1,21 @@
-import { useState } from "react";
+import { useReducer, useState } from "react";
+
+function reducer(state, action) {
+  console.log(state, action);
+  // return state + action;
+  if (action.type === "dec") return state - 1;
+  // If we are using direct value of action then no need of payload property in dispatch
+  if (action.type === "inc") return state + 1;
+  if (action.type === "setCount") return action.payload;
+}
 
 function DateCounter() {
-  const [count, setCount] = useState(0);
+  // useReducer hook is more advanced and more complex way of managing state instead of useState hook.
+  // useReducer works with reducer function.
+  // It is a pure function that always takes in previous state and so called action as an argument and will return next state.
+  // const [count, setCount] = useState(0);
+  const [count, dispatch] = useReducer(reducer, 0);
+
   const [step, setStep] = useState(1);
 
   // This mutates the date object.
@@ -9,17 +23,20 @@ function DateCounter() {
   date.setDate(date.getDate() + count);
 
   const dec = function () {
+    dispatch({ type: "dec" }); // If we use payload -1 then need to change substraction with addition in reducer function
     // setCount((count) => count - 1);
-    setCount((count) => count - step);
+    // setCount((count) => count - step);
   };
 
   const inc = function () {
+    dispatch({ type: "inc" }); // This is called actions
     // setCount((count) => count + 1);
-    setCount((count) => count + step);
+    // setCount((count) => count + step);
   };
 
   const defineCount = function (e) {
-    setCount(Number(e.target.value));
+    dispatch({ type: "setCount", payload: Number(e.target.value) });
+    // setCount(Number(e.target.value));
   };
 
   const defineStep = function (e) {
@@ -27,7 +44,7 @@ function DateCounter() {
   };
 
   const reset = function () {
-    setCount(0);
+    // setCount(0);
     setStep(1);
   };
 
