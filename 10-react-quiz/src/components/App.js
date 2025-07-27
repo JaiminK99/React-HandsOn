@@ -47,6 +47,21 @@ function reducer(state, action) {
         highscore:
           state.points > state.highscore ? state.points : state.highscore,
       };
+    case "reset":
+      // below either one can be used from 2
+      return {
+        ...initialState,
+        status: "ready",
+        questions: state.questions,
+        highscore: state.highscore,
+      };
+    // return {
+    //   ...state,
+    //   points: 0,
+    //   index: 0,
+    //   answer: null,
+    //   status: "ready",
+    // };
     default:
       throw new Error("Action unknown");
   }
@@ -103,6 +118,7 @@ export default function App() {
             points={points}
             maxPoints={maxPoints}
             highscore={highscore}
+            dispatch={dispatch}
           />
         )}
       </Main>
