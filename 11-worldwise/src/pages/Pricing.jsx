@@ -1,9 +1,14 @@
+import PageNav from "../component/PageNav";
+
 function Pricing() {
-    return (
-        <div>
-            Pricing
-        </div>
-    )
+  return (
+    <div>
+      <div>
+        <PageNav />
+        <h1>Pricing</h1>
+      </div>
+    </div>
+  );
 }
 
-export default Pricing
+export default Pricing;
