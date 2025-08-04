@@ -2,8 +2,9 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Product from "./pages/Product";
 import Pricing from "./pages/Pricing";
 import Homepage from "./pages/Homepage";
-import Notfound from "./pages/Notfound";
+import PageNotFound from "./pages/PageNotFound";
 import Applayout from "./pages/Applayout";
+import Login from "./pages/Login";
 
 function App() {
   return (
@@ -12,8 +13,9 @@ function App() {
         <Route path="/" element={<Homepage />} />
         <Route path="products" element={<Product />} />
         <Route path="pricing" element={<Pricing />} />
+        <Route path="login" element={<Login />} />
         <Route path="app" element={<Applayout />} />
-        <Route path="*" element={<Notfound />} />
+        <Route path="*" element={<PageNotFound />} />
       </Routes>
     </BrowserRouter>
   );
