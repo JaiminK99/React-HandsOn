@@ -9,6 +9,7 @@ import CityList from "./component/CityList";
 import { useState } from "react";
 import { useEffect } from "react";
 import CountryList from "./component/CountryList";
+import City from "./component/City";
 
 function App() {
   const [cities, setCities] = useState([]);
@@ -50,6 +51,7 @@ function App() {
             path="cities"
             element={<CityList cities={cities} isLoading={isLoading} />}
           ></Route>
+          <Route path="cities/:id" element={<City />}></Route>
           <Route
             path="countries"
             element={<CountryList cities={cities} isLoading={isLoading} />}
