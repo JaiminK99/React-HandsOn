@@ -10,39 +10,50 @@ import CountryList from "./component/CountryList";
 import City from "./component/City";
 import Form from "./component/Form";
 import { CitiesProvider } from "./contexts/CitiesContext";
+import { AuthProvider } from "./contexts/FakeAuthContext";
+import ProtetedRoute from "./pages/ProtetedRoute";
 
 function App() {
   return (
-    <CitiesProvider>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Homepage />} />
-          <Route path="products" element={<Product />} />
-          <Route path="pricing" element={<Pricing />} />
-          <Route path="login" element={<Login />} />
-          <Route path="app" element={<Applayout />}>
-            {/*Below are Nested Route :  because it is a route inside a app layout rout */}
-            {/*index rout : When if neither of the nested path matches then this index path will be displayed */}
-            {/* 1st method : using this method does not go to destination with correct path. So we will have to take each station one by one 
+    <AuthProvider>
+      <CitiesProvider>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Homepage />} />
+            <Route path="products" element={<Product />} />
+            <Route path="pricing" element={<Pricing />} />
+            <Route path="login" element={<Login />} />
+            <Route
+              path="app"
+              element={
+                <ProtetedRoute>
+                  <Applayout />
+                </ProtetedRoute>
+              }
+            >
+              {/*Below are Nested Route :  because it is a route inside a app layout rout */}
+              {/*index rout : When if neither of the nested path matches then this index path will be displayed */}
+              {/* 1st method : using this method does not go to destination with correct path. So we will have to take each station one by one 
           ex: below path goes to cities with path : http://localhost:5173/app (Will give error if wwe directly try to access cities)
           <Route
             index
             element={<CityList cities={cities} isLoading={isLoading} />}
           /> */}
-            {/* 2nd Method : using navigate component of router dom it points to the correct chekpoints and reaches destination
+              {/* 2nd Method : using navigate component of router dom it points to the correct chekpoints and reaches destination
           as soon as index route is hit it will redirect to cities route 
           ex: below method goes to the cities with path : http://localhost:5173/app/cities*/}
-            <Route index element={<Navigate replace to="cities" />} />
-            {/* Replace keyword to go back on the index path : Will replace current element in history stack*/}
-            <Route path="cities" element={<CityList />}></Route>
-            <Route path="cities/:id" element={<City />}></Route>
-            <Route path="countries" element={<CountryList />}></Route>
-            <Route path="form" element={<Form />}></Route>
-          </Route>
-          <Route path="*" element={<PageNotFound />} />
-        </Routes>
-      </BrowserRouter>
-    </CitiesProvider>
+              <Route index element={<Navigate replace to="cities" />} />
+              {/* Replace keyword to go back on the index path : Will replace current element in history stack*/}
+              <Route path="cities" element={<CityList />}></Route>
+              <Route path="cities/:id" element={<City />}></Route>
+              <Route path="countries" element={<CountryList />}></Route>
+              <Route path="form" element={<Form />}></Route>
+            </Route>
+            <Route path="*" element={<PageNotFound />} />
+          </Routes>
+        </BrowserRouter>
+      </CitiesProvider>
+    </AuthProvider>
   );
 }
 

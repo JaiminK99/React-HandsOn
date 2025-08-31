@@ -1,13 +1,4 @@
-import {
-  act,
-  createContext,
-  useContext,
-  useEffect,
-  useReducer,
-  useState,
-} from "react";
-import CityItem from "../component/CityItem";
-import { circle } from "leaflet";
+import { createContext, useContext, useEffect, useReducer } from "react";
 const BASE_URL = "http://localhost:8000";
 
 const CitiesContext = createContext();
