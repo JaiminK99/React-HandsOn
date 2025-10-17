@@ -39,6 +39,11 @@ function PostProvider({ children }) {
     setPosts([]);
   }
 
+  // Optimize the context when below 3 things are true at the same time
+  // 1. State and context need to change all the time
+  // 2. Context has many consumers
+  // 3. App is actually slow and laggy
+
   const value = useMemo(() => {
     return {
       posts: searchedPosts,
