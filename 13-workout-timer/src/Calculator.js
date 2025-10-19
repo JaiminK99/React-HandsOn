@@ -9,6 +9,7 @@ function Calculator({ workouts, allowSound }) {
   const [duration, setDuration] = useState(0);
 
   // Using useEffect because duration is dependent on multiple state variable
+  // For adding functionality of changing duration through buttons we require state for duration field. but doing so keeps duration field out of sync with number, sets, speed, durationBreak variables. Since duration is dependent on these fields useEffect is used to update duration upon changes in mentioned fields.
   useEffect(
     function () {
       setDuration((number * sets * speed) / 60 + (sets - 1) * durationBreak);
