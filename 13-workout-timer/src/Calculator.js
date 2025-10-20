@@ -1,4 +1,4 @@
-import { memo, useEffect, useState } from "react";
+import { memo, useCallback, useEffect, useState } from "react";
 import clickSound from "./ClickSound.m4a";
 
 function Calculator({ workouts, allowSound }) {
@@ -8,31 +8,49 @@ function Calculator({ workouts, allowSound }) {
   const [durationBreak, setDurationBreak] = useState(5);
   const [duration, setDuration] = useState(0);
 
+  // const playSound = useCallback(
+  //   function () {
+  //     if (!allowSound) return;
+  //     const sound = new Audio(clickSound);
+  //     sound.play();
+  //   },
+  //   [allowSound]
+  // );
+
   // Using useEffect because duration is dependent on multiple state variable
   // For adding functionality of changing duration through buttons we require state for duration field. but doing so keeps duration field out of sync with number, sets, speed, durationBreak variables. Since duration is dependent on these fields useEffect is used to update duration upon changes in mentioned fields.
   useEffect(
     function () {
       setDuration((number * sets * speed) / 60 + (sets - 1) * durationBreak);
+      // playSound();
     },
     [number, sets, speed, durationBreak]
+  );
+
+  useEffect(
+    function () {
+      const playSound = function () {
+        if (!allowSound) return;
+        const sound = new Audio(clickSound);
+        sound.play();
+      };
+      playSound();
+    },
+    [duration, allowSound]
   );
 
   // const duration = (number * sets * speed) / 60 + (sets - 1) * durationBreak;
   const mins = Math.floor(duration);
   const seconds = (duration - mins) * 60;
 
-  const playSound = function () {
-    if (!allowSound) return;
-    const sound = new Audio(clickSound);
-    sound.play();
-  };
-
   function handleInc() {
     setDuration((duration) => Math.floor(duration) + 1);
+    // playSound();
   }
 
   function handleDec() {
     setDuration((duration) => (duration > 1 ? Math.ceil(duration) - 1 : 0));
+    // playSound();
   }
 
   return (
