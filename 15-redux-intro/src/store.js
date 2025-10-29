@@ -11,6 +11,12 @@ import customerReducer from "./features/customers/customerSlice";
 
 import { thunk } from "redux-thunk";
 
+// To use redux-devtools need to follow 3 steps
+// 1> Install chrome browser extension
+// 2> Install npm package (npm i @redux-devtools/extension)
+// 3> import composewithdevtools function
+import { composeWithDevTools } from "@redux-devtools/extension";
+
 // We can't pass two reducers in one store like parameters.
 // Need to create a root reducer by combining all teh reducers.
 
@@ -19,6 +25,9 @@ const rootReducer = combineReducers({
   customer: customerReducer,
 });
 
-const store = createStore(rootReducer, applyMiddleware(thunk)); // Applied middleware to the store
+const store = createStore(
+  rootReducer,
+  composeWithDevTools(applyMiddleware(thunk))
+); // Applied middleware to the store , Apply redux-devtools-extension with composeWithDevTools
 
 export default store;
