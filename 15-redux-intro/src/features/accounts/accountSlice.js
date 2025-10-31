@@ -1,14 +1,64 @@
 // State slice is a method to keep the code clean and neat
 // any domain slice will include that domain's initial state, reducer and action creator functions
+import { createSlice } from "@reduxjs/toolkit";
 
-const initialStateAccount = {
+// create slice using redux toolkit
+
+const initialState = {
   balance: 0,
   loan: 0,
   loanPurpose: "",
   isLoading: false,
 };
 
-export default function accountReducer(state = initialStateAccount, action) {
+const accountSlice = createSlice({
+  name: "account",
+  initialState,
+  reducers: {
+    deposit(state, action) {
+      state.balance += action.payload;
+    },
+
+    withdraw(state, action) {
+      state.balance -= action.payload;
+    },
+
+    // By default slice actions only takes one argument.
+    // So for below code it was last one beacuse it was executed last
+    // Redux toolkit provides solution for this
+    //  THis steps neds to be taken if we want our action creators to take more than one argument
+    requestLoan: {
+      prepare(amount, purpose) {
+        return {
+          payload: {
+            amount,
+            purpose,
+          },
+        };
+      },
+
+      reducer(state, action) {
+        if (state.loan > 0) return;
+        state.loan = action.payload.amount;
+        state.loanPurpose = action.payload.loanPurpose;
+        state.balance += action.payload.amount;
+      },
+    },
+
+    payLoan(state, action) {
+      state.balance -= state.loan;
+      state.loan = 0;
+      state.loanPurpose = "";
+    },
+  },
+});
+
+export default accountSlice.reducer;
+
+export const { deposit, withdraw, requestLoan, payLoan } = accountSlice.actions;
+
+/*
+export default function accountReducer(state = initialState, action) {
   switch (action.type) {
     case "account/deposit":
       return {
@@ -83,3 +133,4 @@ export function requestLoan(amount, purpose) {
 export function payLoan() {
   return { type: "account/payLoan" };
 }
+*/
