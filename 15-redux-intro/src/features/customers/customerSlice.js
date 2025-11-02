@@ -1,41 +1,76 @@
 // State slice is a method to keep the code clean and neat
 // any domain slice will include that domain's initial state, reducer and action creator functions
 
-const initialStateCustomer = {
+import { createSlice } from "@reduxjs/toolkit";
+
+const initialState = {
   fullName: "",
   nationalID: "",
   createdAt: "",
 };
 
-export default function customerReducer(state = initialStateCustomer, action) {
-  switch (action.type) {
-    case "customer/createCustomer":
-      return {
-        ...state,
-        fullName: action.payload.fullName,
-        nationalID: action.payload.nationalID,
-        createdAt: action.payload.createdAt,
-      };
-    case "customer/updateCustomer":
-      return {
-        ...state,
-        fullName: action.payload,
-      };
-    default:
-      return state;
-  }
-}
+const customerSlice = createSlice({
+  name: "customer",
+  initialState,
+  reducers: {
+    createCustomer: {
+      prepare(fullName, nationalID) {
+        return {
+          payload: {
+            fullName,
+            nationalID,
+            createdAt: new Date().toISOString(),
+          },
+        };
+      },
 
-export function createCustomer(fullName, nationalID) {
-  return {
-    type: "customer/createCustomer",
-    payload: { fullName, nationalID, createdAt: new Date().toISOString() },
-  };
-}
+      reducer(state, action) {
+        state.fullName = action.payload.fullName;
+        state.nationalID = action.payload.nationalID;
+        state.createdAt = action.payload.createdAt;
+      },
+    },
 
-export function updtaeName(fullName) {
-  return {
-    type: "customer/updateCustomer",
-    payload: fullName,
-  };
-}
+    updateCustomer(state, action) {
+      state.fullName = action.payload;
+    },
+  },
+});
+
+export default customerSlice.reducer;
+
+// Creates action creator function
+export const { createCustomer, updateCustomer } = customerSlice.actions;
+
+// export default function customerReducer(state = initialStateCustomer, action) {
+//   switch (action.type) {
+//     case "customer/createCustomer":
+//       return {
+//         ...state,
+//         fullName: action.payload.fullName,
+//         nationalID: action.payload.nationalID,
+//         createdAt: action.payload.createdAt,
+//       };
+//     case "customer/updateCustomer":
+//       return {
+//         ...state,
+//         fullName: action.payload,
+//       };
+//     default:
+//       return state;
+//   }
+// }
+
+// export function createCustomer(fullName, nationalID) {
+//   return {
+//     type: "customer/createCustomer",
+//     payload: { fullName, nationalID, createdAt: new Date().toISOString() },
+//   };
+// }
+
+// export function updtaeName(fullName) {
+//   return {
+//     type: "customer/updateCustomer",
+//     payload: fullName,
+//   };
+// }
